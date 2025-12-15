@@ -24,3 +24,4 @@
 **/*.asv
 **/*.slxc
 **/*~
+**/*.slx.original
