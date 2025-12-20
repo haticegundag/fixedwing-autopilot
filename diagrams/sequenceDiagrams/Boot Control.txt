@@ -1,0 +1,67 @@
+sequenceDiagram
+  title Boot Control Detailed v3
+
+  participant U as Operator
+  participant GCS as GCS MAVLink
+  participant LORA as LoRa Link
+  participant FC as Flight Controller STM32F411
+  participant RPI as Raspberry Pi Vision Logging
+
+  U ->> GCS: Power ON system
+  GCS ->> LORA: Start heartbeat
+  LORA ->> FC: Heartbeat stream
+
+  FC ->> FC: MCU boot init clocks timers DMA
+  FC ->> FC: Load parameters from flash
+  FC ->> FC: Load calibration constants
+
+  FC ->> RPI: Init companion link UART or USB TBD
+  RPI -->> FC: RPI status READY or NOT READY
+
+  FC ->> FC: Sensor self test IMU BARO GPS
+  FC ->> LORA: BOOT_STATUS params sensors gps rpi
+  LORA ->> GCS: BOOT_STATUS params sensors gps rpi
+  GCS ->> U: Show boot summary
+
+  alt Boot checks OK
+    FC ->> LORA: STATE WAITING_FOR_CONFIG
+    LORA ->> GCS: STATE WAITING_FOR_CONFIG
+  else Boot checks FAIL
+    FC ->> LORA: STATE ERROR_BOOT plus reason
+    LORA ->> GCS: STATE ERROR_BOOT plus reason
+  end
+
+  opt GCS sets failsafe policy
+    U ->> GCS: Select RPI failsafe policy CONTINUE or RTL
+    GCS ->> LORA: SET_PARAM RPI_FAILSAFE_POLICY
+    LORA ->> FC: RPI_FAILSAFE_POLICY value
+    FC -->> LORA: PARAM_ACK OK
+    LORA -->> GCS: PARAM_ACK OK
+  end
+
+  opt Mission upload from GCS
+    U ->> GCS: Upload mission
+    GCS ->> LORA: MAVLink mission upload
+    LORA ->> FC: Mission items
+    FC -->> LORA: Mission ack
+    LORA -->> GCS: Mission ack
+  end
+
+  opt Geofence upload from GCS
+    U ->> GCS: Upload geofence square and altitude limits
+    GCS ->> LORA: GEOFENCE data stream
+    LORA ->> FC: Fence points and limits
+    FC -->> LORA: Fence ack
+    LORA -->> GCS: Fence ack
+  end
+
+  FC ->> FC: Validate config mission fence
+  alt All preconditions met
+    FC ->> LORA: STATE READY_TO_START
+    LORA ->> GCS: STATE READY_TO_START
+    GCS ->> U: Display READY_TO_START
+  else Not ready
+    FC ->> LORA: STATE NOT_READY plus reason code
+    LORA ->> GCS: STATE NOT_READY plus reason code
+    GCS ->> U: Display NOT_READY reason
+  end
