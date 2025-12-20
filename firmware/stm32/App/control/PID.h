@@ -1,5 +1,5 @@
-#ifndef STM32PID_H
-#define STM32PID_H
+#ifndef PID_H
+#define PID_H
 
 class PID
 {
@@ -30,4 +30,4 @@ public:
     void reset();
 };
 
-#endif // STM32PID_H
+#endif
