@@ -1,4 +1,4 @@
-# ATABEY UAV Fixed-Wing Autopilot
+# ✈ ATABEY UAV Fixed-Wing Autopilot
 
 Bu repo, **Atabey İHA** projesi kapsamında geliştirilen, **Arduino tabanlı sabit kanat (fixed-wing) otonom uçuş kontrol yazılımını** içermektedir. Sistem; sensör okuma, durum kestirimi, kontrol algoritmaları, görev yürütme ve yer istasyonu haberleşmesini **modüler ve genişletilebilir** bir mimariyle ele alır.
 
