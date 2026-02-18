@@ -6,8 +6,9 @@ namespace atabey {
         Autopilot::Autopilot()
             : lastMs(0), dt(0.0f),
             roll(0), pitch(0), yaw(0),
+            rollRate(0), pitchRate(0), yawRate(0),
             aileron(0), elevator(0), rudder(0), throttle(0),
-            desiredRoll(0), desiredPitch(0), throttle(0),
+            desiredRoll(0), desiredPitch(0), desiredYaw(0),
             controller(nullptr), estimator(nullptr), commLink(nullptr),
             imu(nullptr), gps(nullptr), actuators(nullptr),
             scheduler(nullptr), flightModeMgr(nullptr),
@@ -76,9 +77,13 @@ namespace atabey {
 
             estimator->update();
 
-            roll  = estimator->getRoll();
+            roll = estimator->getRoll();
             pitch = estimator->getPitch();
-            yaw   = estimator->getYaw();
+            yaw = estimator->getYaw();
+
+            rollRate = estimator->getRollRate();
+            pitchRate = estimator->getPitchRate();
+            yawRate = estimator->getYawRate();
         }
 
         void Autopilot::runControl() {
@@ -86,6 +91,11 @@ namespace atabey {
 
             controller->setTarget(desiredRoll, desiredPitch, desiredYaw);
             controller->update(dt);
+
+            aileron = controller->getAileron();
+            elevator = controller->getElevator();
+            rudder = controller->getRudder();
+            throttle = controller->getThrottle();
         }
 
         void Autopilot::applyActuators() {
