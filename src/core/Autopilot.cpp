@@ -5,7 +5,7 @@
 #include "../control/IController.h"
 #include "../drivers/actuators/IActuator.h"
 #include "../comm/ICommLink.h"
-#include "../core/MathUtils.h"
+#include "../utils/MathUtils.h"
 
 namespace atabey {
     namespace core {
