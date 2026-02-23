@@ -6,6 +6,7 @@
 #include "../estimation/IEstimator.h"
 #include "../control/IController.h"
 #include "../comm/ICommLink.h"
+#include "../core/MathUtils.h"
 
 #include "Scheduler.h"
 #include "FlightModeManager.h"

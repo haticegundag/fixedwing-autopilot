@@ -5,6 +5,7 @@
 #include "../control/IController.h"
 #include "../drivers/actuators/IActuator.h"
 #include "../comm/ICommLink.h"
+#include "../core/MathUtils.h"
 
 namespace atabey {
     namespace core {
@@ -68,9 +69,8 @@ namespace atabey {
 
             // İlk çalışmadaki lastMs = 0 durumunda dt = 0 gelme durumunun engellenmesi durumu,
             // ve uint32_t limiti aşıldığında oluşan overflow sonucu dt negatif gelmesi engellenmek için bu "if" bloğu kullanılmıştır.
-            if (dt <= 0.0f || dt > 0.1f) {
-                dt = 0.01f; // 10ms değeri tamamen random
-            }
+            if (dt <= 0.0f ) { dt = 0.01f; }
+            else if (dt > 0.1f) { dt = 0.01f; }
         }
 
         void Autopilot::readSensors() {
