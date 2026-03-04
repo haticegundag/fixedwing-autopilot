@@ -4,6 +4,8 @@
 #include "ISensor.h"
 #include "../../utils/MathUtils.h"
 
+using atabey::utils::Vec3f;
+
 namespace atabey {
     namespace drivers {
 
@@ -20,6 +22,8 @@ namespace atabey {
                 bool init() override;
                 void update() override;
                 bool isHealthy() const override;
+                bool writeRegister(uint8_t addr, uint8_t reg, uint8_t data);
+                bool readBytes(uint8_t addr, uint8_t reg, uint8_t* buffer, uint8_t len);
 
                 Vec3f getAccel() const;
                 Vec3f getGyro() const;
