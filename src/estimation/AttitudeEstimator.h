@@ -20,16 +20,19 @@ namespace atabey {
 
                 float normalized{0};
                 float dt;
-                static unsigned long prevMicros;
-                static unsigned long nowMicros;
+                unsigned long prevMicros{0};
+                unsigned long nowMicros{0};
+
+                float sampleSum{0};
+                float sample{0};
 
             public:
                 AttitudeEstimator(atabey::drivers::ImuSensor& imuSensor);
 
                 bool init() override;
                 void update() override;
-
                 atabey::utils::Vec3f getAttitude() const;
+                atabey::utils::Vec3f getRates() const;
         };
 
     }

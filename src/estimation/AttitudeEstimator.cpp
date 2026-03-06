@@ -2,6 +2,7 @@
 #include <math.h>
 
 #define ALPHA 0.98f
+#define SAMPLE_COUNT 200
 
 using namespace atabey::utils;
 
@@ -13,6 +14,12 @@ namespace atabey {
         bool AttitudeEstimator::init() {
             roll = pitch = yaw = 0.0f;
             pitchAcc = rollAcc = 0.0f;
+
+            for (int i = 0; i < 10; i++) {
+                sampleSum += imu->update();
+                delay(100);
+            }
+            sample = sampleSum * SAMPLE_COUNT; // Ortalama alınarak ilk örnek değeri hesaplanır
             return true;
         }
 

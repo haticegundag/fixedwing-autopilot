@@ -3,7 +3,7 @@
 
 #include "../drivers/sensors/ISensor.h"
 #include "../drivers/actuators/IActuator.h"
-#include "../estimation/IEstimator.h"
+#include "../estimation/AttitudeEstimator.h"
 #include "../control/IController.h"
 #include "../comm/ICommLink.h"
 #include "../utils/MathUtils.h"
@@ -49,7 +49,7 @@ namespace atabey {
             // Modüller
             atabey::drivers::ISensor* imu;
             atabey::drivers::ISensor* gps;
-            atabey::estimation::IEstimator* estimator;
+            atabey::estimation::AttitudeEstimator* att_estimator;
             atabey::control::IController* controller;
             atabey::drivers::IActuator* actuators;
             atabey::comm::ICommLink* commLink;
@@ -75,7 +75,7 @@ namespace atabey {
             // Bağımlılık Bağlama
             void attachIMU(atabey::drivers::ISensor* imuSensor);
             void attachGPS(atabey::drivers::ISensor* gpsSensor);
-            void attachEstimator(atabey::estimation::IEstimator* est);
+            void attachAttitudeEstimator(atabey::estimation::AttitudeEstimator* est);
             void attachController(atabey::control::IController* ctrl);
             void attachActuators(atabey::drivers::IActuator* act);
             void attachComm(atabey::comm::ICommLink* comm);
