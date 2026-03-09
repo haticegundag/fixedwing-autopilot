@@ -15,5 +15,6 @@
 #include "estimation/IEstimator.h"
 
 #include "drivers/sensors/imu.h"
+#include "drivers/actuators/servo.h"
 
 #include "estimation/AttitudeEstimator.h"

@@ -13,7 +13,16 @@ namespace atabey {
         bool AttitudeEstimator::init() {
             roll = pitch = yaw = 0.0f;
             pitchAcc = rollAcc = 0.0f;
-            
+            rollBias = pitchBias = 0.0f;
+            dt = 0.01f; // Başlangıçta 10ms varsayıyoruz
+
+            P_roll[0][0]  = 1.0f; P_roll[0][1]  = 0.0f;
+            P_roll[1][0]  = 0.0f; P_roll[1][1]  = 1.0f;
+
+            P_pitch[0][0] = 1.0f; P_pitch[0][1] = 0.0f;
+            P_pitch[1][0] = 0.0f; P_pitch[1][1] = 1.0f;
+
+            prevMicros = micros();
             return true;
         }
 
@@ -21,9 +30,7 @@ namespace atabey {
             Vec3f accel = normalize(imu->getAccel()); // Akselometre verilerini normalize ederek kullanıyoruz
             Vec3f gyro = imu->getGyro();
 
-            prevMicros = micros();
             nowMicros = micros();
-
             dt = (nowMicros - prevMicros) / 1000000.0f; // Saniyeye dönüştürmek için
             prevMicros = nowMicros;
 
