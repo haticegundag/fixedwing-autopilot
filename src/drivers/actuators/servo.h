@@ -18,10 +18,11 @@ namespace atabey {
             public:
                 ServoPWM() {}
 
-                void init() {
+                bool init() override {
                     pinMode(ELEVON_SOL_PIN, OUTPUT);
                     pinMode(ELEVON_SAG_PIN, OUTPUT);
                     disarm();
+                    return true;
                 }
 
                 void setPosition(float solAngle, float sagAngle) {
@@ -32,6 +33,11 @@ namespace atabey {
 
                     analogWrite(ELEVON_SOL_PIN, solAci);
                     analogWrite(ELEVON_SAG_PIN, sagAci);
+                }
+
+                void update(float dt) override {
+                    // Bu örnekte update fonksiyonu boş, çünkü setPosition fonksiyonu doğrudan servo pozisyonunu güncelliyor.
+                    // Gerçek bir uygulamada, burada PID kontrolü veya başka bir kontrol algoritması çalıştırabilirsiniz. (ChatGPT)
                 }
 
                 void disarm() {

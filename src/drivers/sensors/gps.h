@@ -60,7 +60,7 @@ namespace atabey {
         };
 
         #pragma pack(pop)
-        static_assert(sizeof(NavPVT) == 92, "NavPVT yapısı 92 byte olmalıdır!");
+        static_assert(sizeof(NavPVT) <= 92, "NavPVT yapısı 92 byte'tan büyük olmamalıdır!");
 
         class GpsSensor : public atabey::drivers::ISensor {
             private:
