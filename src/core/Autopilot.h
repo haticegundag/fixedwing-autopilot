@@ -1,8 +1,9 @@
 #pragma once
 #include <Arduino.h>
 
-#include "../drivers/sensors/ISensor.h"
-#include "../drivers/actuators/IActuator.h"
+#include "../drivers/sensors/gps.h"
+#include "../drivers/sensors/imu.h"
+#include "../drivers/actuators/servo.h"
 #include "../estimation/AttitudeEstimator.h"
 #include "../control/IController.h"
 #include "../comm/ICommLink.h"
